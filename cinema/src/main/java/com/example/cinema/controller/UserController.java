@@ -4,6 +4,9 @@ import com.example.cinema.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping("/login")
     public String login(Model model, @AuthenticationPrincipal UserDetails user) {
@@ -71,6 +75,7 @@ public class UserController {
         // successful login logic
         return "redirect:/";
     }
+    //admin not working
 
     @GetMapping("/admin")
     public String admin(Model model, Principal principal) {

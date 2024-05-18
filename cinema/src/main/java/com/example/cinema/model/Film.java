@@ -14,7 +14,31 @@ public class Film {
     private String name;
 
     @Column(nullable = false)
+    private String alternativeName;
+
+    @Column(nullable = false)
+    private String type;
+
+    @Column(nullable = false)
+    private Integer typeNumber;
+
+    @Column(nullable = false)
     private Integer year;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String shortDescription;
+
+    @Column(nullable = false)
+    private Double kpRating;
+
+    @Column(nullable = false)
+    private Integer kpVotes;
+
+    @Column(nullable = false)
+    private Integer movieLength;
 
     @Column(nullable = false)
     private String genre;
@@ -22,16 +46,25 @@ public class Film {
     @Column(nullable = false)
     private String director;
 
-    @Column(nullable = false)
-    private Integer duration;
-
-    @Column(nullable = false)
-    private String description;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Poster and Backdrop are complex objects, so we'll create separate classes for them
+
+    @Embedded
+    private Poster poster;
+
+    @Embedded
+    private Backdrop backdrop;
+
+    // Genres and Countries are lists, so we'll create separate classes for them as well
+
+//    @Embedded
+//    private List<Genre> genres;
+//
+//    @Embedded
+//    private List<Country> countries;
 
     // getters and setters
 
@@ -77,11 +110,11 @@ public class Film {
     }
 
     public Integer getDuration() {
-        return duration;
+        return movieLength;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setDuration(Integer movieLength) {
+        this.movieLength = movieLength;
     }
 
     public String getDescription() {
@@ -90,5 +123,20 @@ public class Film {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Backdrop getBackdrop() {
+        return backdrop;
+    }
+
+    public void setBackdrop(Backdrop backdrop) {
+        this.backdrop = backdrop;
+    }
+
+    public Poster getPoster() {
+        return poster;
+    }
+
+    public void setPoster(Poster poster) {
+        this.poster = poster;
     }
 }
