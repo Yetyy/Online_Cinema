@@ -21,8 +21,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/register", "/login", "/index" ,"/").permitAll()
+                        .requestMatchers("/register", "/login", "/", "/").permitAll()
                         .requestMatchers("/profile").authenticated()
+                        .requestMatchers("/film/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form ->
@@ -35,7 +36,6 @@ public class WebSecurityConfig {
                         logout
                                 .permitAll()
                 );
-
         return http.build();
     }
 }

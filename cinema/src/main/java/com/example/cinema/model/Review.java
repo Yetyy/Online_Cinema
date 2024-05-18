@@ -17,9 +17,9 @@ import jakarta.validation.constraints.NotEmpty;
         @JoinColumn(name = "user_id")
         private User user;
 
-        @ManyToOne
-        @JoinColumn(name = "film_id")
-        private Film film;
+//        @ManyToOne
+//        @JoinColumn(name = "film_id")
+//        private Film film;
 
         // getters and setters
     }

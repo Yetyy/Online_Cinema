@@ -37,8 +37,8 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
-    @OneToMany(mappedBy = "user")
-    private List<Film> favoriteFilms;
+//    @OneToMany(mappedBy = "user")
+//    private List<Film> favoriteFilms;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
@@ -125,9 +125,9 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public List<Film> getFavoriteFilms() {
-        return favoriteFilms == null ? Collections.emptyList() : favoriteFilms;
-    }
+//    public List<Film> getFavoriteFilms() {
+//        return favoriteFilms == null ? Collections.emptyList() : favoriteFilms;
+//    }
 
     public List<Review> getReviews() {
         return reviews == null ? Collections.emptyList() : reviews;

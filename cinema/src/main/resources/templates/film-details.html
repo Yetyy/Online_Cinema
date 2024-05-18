@@ -1,23 +1,32 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Фильм</title>
+  <title>Детали фильма</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 <div class="container mt-5">
-  <h1 th:text="${film != null} ? ${film.name} : 'Нет данных'"/>
-  <img th:if="${film != null}" th:src="${film.posterUrl}" class="img-fluid" alt="...">
-  <p th:if="${film != null}" th:text="${film.description}"/>
-  <p th:if="${film != null}"><b>Жанры:</b> <span th:text="${film.genres}"/></p>
-  <p th:if="${film != null}"><b>Режиссер:</b> <span th:text="${film.director}"/></p>
-  <p th:if="${film != null}"><b>В ролях:</b> <span th:text="${film.actors}"/></p>
-  <p th:if="${film != null}"><b>Год выпуска:</b> <span th:text="${film.year}"/></p>
-  <p th:if="${film != null}"><b>Продолжительность:</b> <span th:text="${film.duration}"/></p>
+  <h1 th:text="${film.name}"></h1>
+  <div class="row">
+    <div class="col-md-4">
+      <img th:src="${film.poster != null ? film.poster.posterUrl : ''}" class="img-fluid" alt="Poster">
+    </div>
+    <div class="col-md-8">
+      <p><strong>Год:</strong> <span th:text="${film.year}"></span></p>
+      <p><strong>Жанр:</strong> <span th:text="${formattedGenres}"></span></p>
+      <p><strong>Режиссёр:</strong>
+        <span th:each="person : ${film.persons}" th:if="${person.profession == 'режиссеры'}" th:text="${person.name}"></span>
+      </p>
+      <p><strong>Продолжительность:</strong> <span th:text="${film.movieLength}"></span> минут</p>
+      <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
+      <p><strong>Рейтинг:</strong> <span th:text="${film.rating.kp}"></span></p>
+      <p><strong>Голосов:</strong> <span th:text="${film.votes.kp}"></span></p>
+      <a th:href="@{/}" class="btn btn-secondary">Назад к списку</a>
+    </div>
+  </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

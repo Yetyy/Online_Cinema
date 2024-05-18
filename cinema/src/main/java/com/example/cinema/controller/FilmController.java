@@ -1,6 +1,7 @@
 package com.example.cinema.controller;
 
 import com.example.cinema.model.Film;
+import com.example.cinema.model.Genre;
 import com.example.cinema.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class FilmController {
@@ -37,10 +39,22 @@ public class FilmController {
     }
 
     @GetMapping("/film/{id}")
-    public String filmDetails(@PathVariable("id") Long id, Model model) {
+    public String getFilmById(@PathVariable Long id, Model model) {
         Film film = filmService.getFilmById(id);
-        model.addAttribute("film", film);
-        return "film-details";
+        if (film != null) {
+            // Преобразование жанров в строку
+            String formattedGenres = film.getGenres().stream()
+                    .map(Genre::getCapitalizedName)
+                    .collect(Collectors.joining(", "));
+
+            // Добавление фильма и форматированной строки жанров в модель
+            model.addAttribute("film", film);
+            model.addAttribute("formattedGenres", formattedGenres);
+
+            return "film-details";
+        } else {
+            return "error/404";
+        }
     }
 
     @GetMapping("/search")

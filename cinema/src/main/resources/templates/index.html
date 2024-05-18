@@ -18,7 +18,7 @@
         <img th:src="${film.poster != null ? film.poster.posterUrl : ''}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 th:text="${film.name}" class="card-title"></h5>
-          <p th:text="${film.description}" class="card-text"></p>
+          <p th:text="${film.shortDescription}" class="card-text"></p>
           <a th:href="@{/film/{id}(id=${film.id})}" class="btn btn-primary">Подробнее</a>
         </div>
       </div>

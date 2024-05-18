@@ -1,6 +1,7 @@
+
 package com.example.cinema.model;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -11,7 +12,7 @@ public class Poster {
     @JsonProperty("previewUrl")
     private String posterPreviewUrl;
 
-    // getters and setters
+    // Getters and setters
 
     public String getPosterUrl() {
         return posterUrl;
