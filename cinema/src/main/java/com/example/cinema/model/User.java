@@ -40,9 +40,6 @@ public class User implements UserDetails {
 //    @OneToMany(mappedBy = "user")
 //    private List<Film> favoriteFilms;
 
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
-
     @Transient
     private PasswordEncoder passwordEncoder;
 
@@ -93,6 +90,7 @@ public class User implements UserDetails {
         return id;
     }
 
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -128,10 +126,6 @@ public class User implements UserDetails {
 //    public List<Film> getFavoriteFilms() {
 //        return favoriteFilms == null ? Collections.emptyList() : favoriteFilms;
 //    }
-
-    public List<Review> getReviews() {
-        return reviews == null ? Collections.emptyList() : reviews;
-    }
 
     public boolean isPasswordValid(String password) {
         return passwordEncoder != null && passwordEncoder.matches(password, this.password);

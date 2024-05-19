@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +34,14 @@ public class WebSecurityConfig {
                 )
                 .logout((logout) -> logout
                         .permitAll()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // add this line
+                        .logoutSuccessHandler(logoutSuccessHandler())
                 );
         return http.build();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler(); // return an instance of your custom logout success handler
     }
 }

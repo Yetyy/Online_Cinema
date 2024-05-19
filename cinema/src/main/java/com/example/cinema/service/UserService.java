@@ -19,6 +19,11 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    public String getUsernameById(Long userId) {
+        return userRepository.findById(userId)
+                .map(User::getUsername)
+                .orElse("Unknown User");
+    }
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);

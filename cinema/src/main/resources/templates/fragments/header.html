@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Header</title>
@@ -14,17 +14,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item" th:if="${!isUserLoggedIn}">
+                    <a class="nav-link" href="/register">Регистрация</a>
+                </li>
+                <li class="nav-item" th:if="${!isUserLoggedIn}">
+                    <a class="nav-link" href="/login">Войти</a>
+                </li>
                 <li class="nav-item" th:if="${isUserLoggedIn}">
                     <a class="nav-link" th:href="@{/profile}">Профиль</a>
                 </li>
-                <li class="nav-item" th:if="${principal == null}">
-                    <a class="nav-link" href="/register">Регистрация</a>
-                </li>
-                <li class="nav-item" th:if="${principal == null}">
-                    <a class="nav-link" href="/login">Войти</a>
-                </li>
-                <li class="nav-item" th:if="${principal != null}">
-                    <a class="nav-link" href="/logout">Выйти</a>
+                <li class="nav-item" th:if="${isUserLoggedIn}">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="nav-link btn btn-link" type="submit">Выйти</button>
+                    </form>
                 </li>
             </ul>
         </div>

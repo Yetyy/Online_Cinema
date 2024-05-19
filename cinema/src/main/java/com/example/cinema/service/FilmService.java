@@ -29,4 +29,6 @@ public class FilmService {
     public List<Film> searchFilms(String query, int page, int size) {
         return filmApiClient.searchFilms(query, page, size);
     }
+
+
 }

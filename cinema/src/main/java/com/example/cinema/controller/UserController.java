@@ -44,12 +44,14 @@ public class UserController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("isUserLoggedIn", true);
         return "register";
     }
 
     @GetMapping("/profile")
     public String getProfile(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
+        model.addAttribute("isUserLoggedIn", true);
         return "profile";
     }
     @PostMapping("/register")
