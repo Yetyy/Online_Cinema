@@ -21,20 +21,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/register", "/login", "/", "/").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/film/**", "/search/**", "/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/profile").authenticated()
-                        .requestMatchers("/film/*").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form ->
-                        form
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/profile", true)
-                                .permitAll()
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/profile", true)
+                        .permitAll()
                 )
-                .logout(logout ->
-                        logout
-                                .permitAll()
+                .logout((logout) -> logout
+                        .permitAll()
                 );
         return http.build();
     }

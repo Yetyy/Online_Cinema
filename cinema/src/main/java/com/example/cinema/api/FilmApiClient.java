@@ -66,15 +66,17 @@ public class FilmApiClient {
         }
     }
 
-    public List<Film> searchFilms(String query) {
+    public List<Film> searchFilms(String query, int page, int size) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-API-KEY", apiKey);
 
         HttpEntity<Object> request = new HttpEntity<>(headers);
 
+        String url = String.format("%s/v1.4/movie/search?query=%s&page=%d&limit=%d", apiUrl, query, page, size);
+
         ResponseEntity<FilmResponse> response = restTemplate.exchange(
-                apiUrl + "/v1.4/movie/search?query=" + query,
+                url,
                 HttpMethod.GET,
                 request,
                 FilmResponse.class);

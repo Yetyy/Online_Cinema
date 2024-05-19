@@ -11,7 +11,7 @@
   <h1 th:text="${film.name}"></h1>
   <div class="row">
     <div class="col-md-4">
-      <img th:src="${film.poster != null ? film.poster.posterUrl : ''}" class="img-fluid" alt="Poster">
+      <img th:src="${film.poster.posterUrl != null ? film.poster.posterUrl : '/images/poster_holder.jpg'}" class="img-fluid" alt="Poster">
     </div>
     <div class="col-md-8">
       <p><strong>Год:</strong> <span th:text="${film.year}"></span></p>

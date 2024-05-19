@@ -8,14 +8,14 @@
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 <div class="container mt-5">
-  <h1> Каталог фильмов</h1>
-  <form class="mb-3" th:action="@{/search}">
+  <h1>Каталог фильмов</h1>
+  <form class="mb-3" th:action="@{/search}" method="get">
     <input type="text" name="query" placeholder="Поиск фильмов" class="form-control">
   </form>
   <div class="row">
     <div th:each="film : ${popularFilms}" class="col-md-3">
       <div class="card mb-4">
-        <img th:src="${film.poster != null ? film.poster.posterUrl : ''}" class="card-img-top" alt="...">
+        <img th:src="${film.poster.posterUrl != null ? film.poster.posterUrl : '/images/poster_holder.jpg'}" class="img-fluid" alt="Poster">
         <div class="card-body">
           <h5 th:text="${film.name}" class="card-title"></h5>
           <p th:text="${film.shortDescription}" class="card-text"></p>

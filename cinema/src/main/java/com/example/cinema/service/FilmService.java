@@ -26,7 +26,7 @@ public class FilmService {
         return filmApiClient.getFilmById(id);
     }
 
-    public List<Film> searchFilms(String query) {
-        return filmApiClient.searchFilms(query);
+    public List<Film> searchFilms(String query, int page, int size) {
+        return filmApiClient.searchFilms(query, page, size);
     }
 }

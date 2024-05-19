@@ -58,9 +58,14 @@ public class FilmController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("query") String query, Model model) {
-        List<Film> searchResults = filmService.searchFilms(query);
+    public String search(@RequestParam("query") String query,
+                         @RequestParam(value = "page", defaultValue = "1") int page,
+                         @RequestParam(value = "size", defaultValue = "4") int size,
+                         Model model) {
+        List<Film> searchResults = filmService.searchFilms(query, page, size);
         model.addAttribute("searchResults", searchResults);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("query", query);
         return "search-results";
     }
 }

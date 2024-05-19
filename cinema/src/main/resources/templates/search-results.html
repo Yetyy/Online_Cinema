@@ -8,17 +8,44 @@
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 <div class="container mt-5">
-  <h1> Результаты поиска</h1>
-  <div th:if="${searchResults != null}" th:each="film : ${searchResults}" class="alert alert-info mt-2">
-    <h3 th:text="${film.name}"/>
-    <p th:text="${film.description}"/>
-    <a th:href="'/film/' + ${film.id}" class="btn btn-warning">Детальнее</a>
+  <h1>Результаты поиска</h1>
+  <form class="mb-3" th:action="@{/search}" method="get">
+    <input type="text" name="query" placeholder="Поиск фильмов" class="form-control" th:value="${query}">
+    <button type="submit" class="btn btn-primary mt-2">Поиск</button>
+  </form>
+  <div class="row">
+    <div th:each="film : ${searchResults}" class="col-md-3">
+      <div class="card mb-4">
+        <img th:src="${film.poster.posterUrl != null ? film.poster.posterUrl : '/images/poster_holder.jpg'}" class="img-fluid" alt="Poster">
+        <div class="card-body">
+          <h5 th:text="${film.name}" class="card-title"></h5>
+          <p th:text="${film.shortDescription}" class="card-text"></p>
+          <a th:href="@{/film/{id}(id=${film.id})}" class="btn btn-primary">Подробнее</a>
+        </div>
+      </div>
+    </div>
+    <div th:if="${searchResults.size() == 0}" class="col-12">
+      <p>По вашему запросу ничего не найдено</p>
+    </div>
   </div>
-  <div th:if="${searchResults == null}">
-    <p>Нет результатов поиска</p>
-  </div>
+  <nav th:if="${searchResults.size() > 0}" aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/search(query=${query}, page=${currentPage - 1}, size=${size})}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == i} ? 'active'" th:each="i : ${#numbers.sequence(1, currentPage + 1)}">
+        <a class="page-link" th:href="@{/search(query=${query}, page=${i}, size=${size})}" th:text="${i}">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" th:href="@{/search(query=${query}, page=${currentPage + 1}, size=${size})}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
