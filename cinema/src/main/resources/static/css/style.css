@@ -4,62 +4,38 @@
   justify-content: flex-end;
 }
 
-.rating > input {
+.rating input[type="radio"] {
   display: none;
 }
 
-.rating > label {
-  font-size: 1.5em;
-  padding: 10px;
+.rating label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: lightgray;
+  clip-path: polygon(50% 0%, 63% 38%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 37% 38%);
   cursor: pointer;
-  color: #ddd;
-  transition: all 0.2s;
 }
 
-.rating > label:before {
-  content: '\2605';
-  font-size: 1.5em;
+.rating input[type="radio"]:checked ~ label {
+  background: gold;
 }
 
-.rating > input:checked ~ label,
-.rating > input:checked ~ label:before {
-  color: #ffc107;
+.rating label:hover,
+.rating label:hover ~ label {
+  background: gold;
 }
 
-.rating > input:not(:checked) ~ label:hover,
-.rating > input:not(:checked) ~ label:hover:before,
-.rating > label:hover ~ input:not(:checked) ~ label,
-.rating > label:hover ~ input:not(:checked) ~ label:before {
-  color: #ffc107;
+/* Specific styles for editRating */
+.rating-edit .rating label {
+  background: lightgray;
 }
 
-.rating > label:hover:before {
-  transform: scale(1.1);
+.rating-edit input[type="radio"]:checked ~ label {
+  background: gold;
 }
 
-.read-only .star {
-  font-size: 1.5em;
-  padding: 10px;
-  color: #ffc107;
-}
-
-.read-only .star.filled {
-  content: '\2605';
-}
-
-.read-only .star:not(.filled) {
-  content: '\2606';
-  color: #ddd;
-}
-
-.rating .star {
-  font-size: 1.5em;
-  padding: 10px;
-  cursor: pointer;
-  color: #ddd;
-  transition: all 0.2s;
-}
-
-.rating .star.filled {
-  color: #ffc107;
+.rating-edit label:hover,
+.rating-edit label:hover ~ label {
+  background: gold;
 }

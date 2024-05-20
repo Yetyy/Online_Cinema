@@ -23,9 +23,11 @@ public class ReviewService {
         this.userRepository = userRepository;
     }
 
-    public void addReview(Long filmId, Long userId, String text,Float rating) {
+    public void addReview(Long filmId, Long userId, String text,Float rating, String filmName) {
         Review review = new Review();
         review.setFilmId(filmId);
+        review.setFilmName(filmName);
+        review.setFilmName(filmName);
         review.setUserId(userId);
         review.setText(text);
         review.setRating(rating);
@@ -72,6 +74,9 @@ public class ReviewService {
             sum += review.getRating();
         }
         return (float) sum / reviews.size();
+    }
+    public List<Review> getReviewsByUserId(Long userId) {
+        return reviewRepository.findByUserId(userId);
     }
 
 }

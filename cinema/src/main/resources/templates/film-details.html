@@ -23,7 +23,7 @@
       <p><strong>Продолжительность:</strong> <span th:text="${film.movieLength}"></span> минут</p>
       <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
       <p><strong>Рейтинг:</strong> <span th:text="${film.rating.kp}"></span></p>
-      <p><strong>Рейтинг сайта:</strong> <span th:text="${reviewService.getAverageRating(film.id)*2}"></span></p>
+      <p><strong>Рейтинг сайта:</strong> <span th:text="${reviewService.getAverageRating(film.id)}"></span></p>
       <p><strong>Голосов:</strong> <span th:text="${film.votes.kp}"></span></p>
       <a th:href="@{/}" class="btn btn-secondary">Назад к списку</a>
     </div>
@@ -41,7 +41,7 @@
             <div th:if="${user.id == review.userId}">
               <form th:action="@{'/film/' + ${film.id} + '/review/' + ${review.id} + '/edit'}" method="post">
                 <textarea name="text" th:text="${review.text}" class="form-control"></textarea>
-                <div th:replace="~{fragments/rating :: rating}"></div>
+                <div th:replace="~{fragments/rating-edit :: rating-edit}"></div>
                 <button type="submit" class="btn btn-primary mt-2">Редактировать</button>
               </form>
               <form th:action="@{'/film/' + ${film.id} + '/review/' + ${review.id} + '/delete'}" method="post" class="mt-2">
@@ -58,10 +58,10 @@
       <form th:action="@{'/film/' + ${film.id} + '/review'}" method="post">
         <textarea name="text" class="form-control" placeholder="Ваш отзыв"></textarea>
         <div th:replace="~{fragments/rating :: rating}"></div>
+        <input type="hidden" name="filmName" th:value="${film.name}" />
         <button type="submit" class="btn btn-primary mt-2">Отправить</button>
       </form>
     </div>
-
     <div th:if="${!isUserLoggedIn}" class="mt-4">
       <p>Для того чтобы оставить отзыв, <a th:href="@{/login}">войдите в систему</a>.</p>
     </div>

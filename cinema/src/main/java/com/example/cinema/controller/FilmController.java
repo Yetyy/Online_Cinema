@@ -6,6 +6,7 @@ import com.example.cinema.model.Review;
 import com.example.cinema.model.Genre;
 import com.example.cinema.service.FilmService;
 import com.example.cinema.service.ReviewService;
+import com.example.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,24 +21,20 @@ import java.util.stream.Collectors;
 public class FilmController {
     private final FilmService filmService;
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @Autowired
-    public FilmController(FilmService filmService, ReviewService reviewService) {
+    public FilmController(FilmService filmService, ReviewService reviewService,UserService userService) {
         this.filmService = filmService;
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
     public String index(Model model, @AuthenticationPrincipal UserDetails user) {
         List<Film> popularFilms = filmService.getPopularFilms();
         model.addAttribute("popularFilms", popularFilms);
-
-        if (user != null) {
-            model.addAttribute("isUserLoggedIn", true);
-        } else {
-            model.addAttribute("isUserLoggedIn", false);
-        }
-
+        model.addAttribute("isUserLoggedIn", user != null);
         return "index";
     }
 
@@ -56,8 +53,9 @@ public class FilmController {
             model.addAttribute("reviews", reviews);
 
             if (user != null) {
+                User loggedInUser = userService.findByUsername(user.getUsername());
+                model.addAttribute("user", loggedInUser);
                 model.addAttribute("isUserLoggedIn", true);
-                model.addAttribute("user", user);
             } else {
                 model.addAttribute("isUserLoggedIn", false);
             }
@@ -68,13 +66,30 @@ public class FilmController {
         }
     }
 
+
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query,
+                         @RequestParam(value = "page", defaultValue = "1") int page,
+                         @RequestParam(value = "size", defaultValue = "4") int size,
+                         Model model, @AuthenticationPrincipal UserDetails user) {
+        List<Film> searchResults = filmService.searchFilms(query, page, size);
+        model.addAttribute("searchResults", searchResults);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("query", query);
+        model.addAttribute("isUserLoggedIn", user != null);
+        return "search-results";
+    }
+
+
     @PostMapping("/film/{id}/review")
-    public String addReview(@PathVariable Long id, @RequestParam String text, @RequestParam Float rating, @AuthenticationPrincipal User user) {
+    public String addReview(@PathVariable Long id, @RequestParam String text, @RequestParam Float rating, @RequestParam String filmName, @AuthenticationPrincipal User user) {
         if (user != null) {
-            reviewService.addReview(id, user.getId(), text, rating);
+            reviewService.addReview(id, user.getId(), text, rating, filmName);
         }
         return "redirect:/film/" + id;
     }
+
+
 
     @PostMapping("/film/{id}/review/{reviewId}/edit")
     public String editReview(@PathVariable Long id, @PathVariable Long reviewId, @RequestParam String text, @RequestParam Float rating,@AuthenticationPrincipal User user) {
@@ -93,15 +108,4 @@ public class FilmController {
     }
 
 
-    @GetMapping("/search")
-    public String search(@RequestParam("query") String query,
-                         @RequestParam(value = "page", defaultValue = "1") int page,
-                         @RequestParam(value = "size", defaultValue = "4") int size,
-                         Model model) {
-        List<Film> searchResults = filmService.searchFilms(query, page, size);
-        model.addAttribute("searchResults", searchResults);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("query", query);
-        return "search-results";
-    }
 }

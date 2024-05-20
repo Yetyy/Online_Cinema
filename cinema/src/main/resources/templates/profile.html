@@ -15,6 +15,25 @@
     </div>
   </div>
 
+  <div class="mt-5">
+    <h2>Ваши отзывы</h2>
+    <div th:if="${reviews.isEmpty()}">
+      <p>У вас нет отзывов.</p>
+    </div>
+    <div th:each="review : ${reviews}">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a th:href="@{'/film/' + ${review.filmId}}"><span th:text="${review.filmName}"></span></a>
+          </h5>
+          <p class="text-muted">Рейтинг: <span th:text="${review.rating}"></span></p>
+          <p th:text="${review.text}"></p>
+          <p class="text-muted">Автор: <span th:text="${review.autorName}"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>

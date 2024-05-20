@@ -20,6 +20,7 @@ public class Review {
 
     private String autorName;
     private Long filmId;
+    private String filmName;
 
     @Column(nullable = false)
     @Min(1)
@@ -40,6 +41,13 @@ public class Review {
 
     public void setAutorName(String autorName) {
         this.autorName = autorName;
+    }
+    public String getFilmName() {
+        return filmName;
+    }
+
+    public void setFilmName(String filmName) {
+        this.filmName = filmName;
     }
 
     public String getText() {
