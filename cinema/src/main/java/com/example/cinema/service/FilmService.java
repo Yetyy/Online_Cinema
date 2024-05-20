@@ -2,7 +2,6 @@ package com.example.cinema.service;
 
 import com.example.cinema.api.FilmApiClient;
 import com.example.cinema.model.Film;
-//import com.example.cinema.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +29,7 @@ public class FilmService {
         return filmApiClient.searchFilms(query, page, size);
     }
 
-
+    public String getFilmTrailer(String filmName) {
+        return filmApiClient.getFilmTrailer(filmName);
+    }
 }

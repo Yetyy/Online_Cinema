@@ -52,6 +52,9 @@ public class FilmController {
             List<Review> reviews = reviewService.getReviewsByFilmId(id);
             model.addAttribute("reviews", reviews);
 
+            String trailerId = filmService.getFilmTrailer(film.getName());
+            model.addAttribute("trailerId", trailerId);
+
             if (user != null) {
                 User loggedInUser = userService.findByUsername(user.getUsername());
                 model.addAttribute("user", loggedInUser);
@@ -65,6 +68,7 @@ public class FilmController {
             return "error/404";
         }
     }
+
 
 
     @GetMapping("/search")

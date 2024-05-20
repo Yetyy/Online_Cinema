@@ -30,6 +30,16 @@
   </div>
 
   <div class="mt-5">
+    <h2>Трейлер</h2>
+    <div th:if="${trailerId != null}">
+      <iframe th:src="'https://www.youtube.com/embed/' + ${trailerId}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div th:if="${trailerId == null}">
+      <p>Трейлер не найден.</p>
+    </div>
+  </div>
+
+  <div class="mt-5">
     <h2>Отзывы</h2>
     <div th:each="review : ${reviews}">
       <div class="card mt-3">
@@ -52,21 +62,18 @@
         </div>
       </div>
     </div>
-
-    <div th:if="${isUserLoggedIn}" class="mt-4">
-      <h3>Оставить отзыв</h3>
+    <div th:if="${isUserLoggedIn}">
       <form th:action="@{'/film/' + ${film.id} + '/review'}" method="post">
         <textarea name="text" class="form-control" placeholder="Ваш отзыв"></textarea>
         <div th:replace="~{fragments/rating :: rating}"></div>
         <input type="hidden" name="filmName" th:value="${film.name}" />
-        <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+        <button type="submit" class="btn btn-primary mt-2">Отправить отзыв</button>
       </form>
-    </div>
-    <div th:if="${!isUserLoggedIn}" class="mt-4">
-      <p>Для того чтобы оставить отзыв, <a th:href="@{/login}">войдите в систему</a>.</p>
     </div>
   </div>
 </div>
-<div th:replace="~{fragments/footer :: footer}"></div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
