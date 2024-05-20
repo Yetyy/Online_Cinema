@@ -27,7 +27,6 @@ public class ReviewService {
         Review review = new Review();
         review.setFilmId(filmId);
         review.setFilmName(filmName);
-        review.setFilmName(filmName);
         review.setUserId(userId);
         review.setText(text);
         review.setRating(rating);

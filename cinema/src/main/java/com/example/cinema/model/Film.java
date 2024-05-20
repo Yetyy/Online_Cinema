@@ -1,6 +1,8 @@
 package com.example.cinema.model;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -161,6 +163,18 @@ public class Film {
 
     public void setSeries(boolean series) {
         isSeries = series;
+    }
+
+    public String getDirector() {
+        if (persons != null) {
+            Optional<Person> director = persons.stream()
+                    .filter(person -> "режиссеры".equalsIgnoreCase(person.getProfession()))
+                    .findFirst();
+            if (director.isPresent()) {
+                return director.get().getName();
+            }
+        }
+        return null;
     }
 }
 

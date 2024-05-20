@@ -42,7 +42,7 @@ public class FilmApiClient {
         HttpEntity<Object> request = new HttpEntity<>(headers);
 
         ResponseEntity<FilmResponse> response = restTemplate.exchange(
-                apiUrl + "/v1.4/movie?page=1&rating.kp=8-10&type=movie&votes.kp=500000-1000000&limit=3",
+                apiUrl + "/v1.4/movie?page=2&rating.kp=8-10&type=movie&votes.kp=500000-1000000&limit=3",
                 HttpMethod.GET,
                 request,
                 FilmResponse.class);
@@ -95,14 +95,27 @@ public class FilmApiClient {
             return new ArrayList<>();
         }
     }
-    public String getFilmTrailer(String filmName) {
-        String url = youtubeApiUrl + "/search?part=snippet&q=" + filmName + " trailer&type=video&key=" + youtubeApiKey;
-        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
-            if (!items.isEmpty()) {
-                Map<String, Object> id = (Map<String, Object>) items.get(0).get("id");
-                return (String) id.get("videoId");
+    public String getFilmTrailer(String filmName, String director, int year) {
+//        String query = String.format("%s %s %d trailer", filmName, director, year);
+        String query = String.format("%s %d trailer", filmName, year);
+        String url = String.format("%s/search?part=snippet&type=video&q=%s&key=%s", youtubeApiUrl, query, youtubeApiKey);
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<Object> request = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, request, Map.class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            Map<String, Object> pageInfo = response.getBody();
+            if (pageInfo != null && pageInfo.containsKey("items")) {
+                var items = (List<Map<String, Object>>) pageInfo.get("items");
+                if (!items.isEmpty()) {
+                    var firstItem = items.get(0);
+                    Map<String, Object> idInfo = (Map<String, Object>) firstItem.get("id");
+                    if (idInfo != null && "youtube#video".equals(idInfo.get("kind"))) {
+                        return (String) idInfo.get("videoId");
+                    }
+                }
             }
         }
         return null;

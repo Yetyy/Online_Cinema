@@ -51,8 +51,7 @@ public class FilmController {
             model.addAttribute("reviewService", reviewService);
             List<Review> reviews = reviewService.getReviewsByFilmId(id);
             model.addAttribute("reviews", reviews);
-
-            String trailerId = filmService.getFilmTrailer(film.getName());
+            String trailerId = filmService.getFilmTrailer(film.getName(), film.getDirector(), film.getYear());
             model.addAttribute("trailerId", trailerId);
 
             if (user != null) {

@@ -29,7 +29,7 @@ public class FilmService {
         return filmApiClient.searchFilms(query, page, size);
     }
 
-    public String getFilmTrailer(String filmName) {
-        return filmApiClient.getFilmTrailer(filmName);
+    public String getFilmTrailer(String filmName, String director, int year) {
+        return filmApiClient.getFilmTrailer(filmName,  director , year);
     }
 }

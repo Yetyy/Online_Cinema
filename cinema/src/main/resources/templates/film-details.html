@@ -71,6 +71,9 @@
       </form>
     </div>
   </div>
+  <div th:if="${!isUserLoggedIn}" class="mt-4">
+    <p>Для того чтобы оставить отзыв, <a th:href="@{/login}">войдите в систему</a>.</p>
+  </div>
 </div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
