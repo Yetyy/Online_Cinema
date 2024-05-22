@@ -53,7 +53,7 @@ public class FilmApiClient {
         }
     }
 
-    public Film getFilmById(Long id) {
+    public Film getFilmById(int id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-API-KEY", apiKey);

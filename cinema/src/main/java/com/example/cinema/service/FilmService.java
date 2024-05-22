@@ -24,7 +24,7 @@ public class FilmService {
     }
 
     @Cacheable(value = "films", key = "#id")
-    public Film getFilmById(Long id) {
+    public Film getFilmById(int id) {
         return filmApiClient.getFilmById(id);
     }
 

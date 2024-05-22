@@ -19,7 +19,7 @@ public class Review {
     private Long userId;
 
     private String autorName;
-    private Long filmId;
+    private int filmId;
     private String filmName;
 
     @Column(nullable = false)
@@ -64,11 +64,11 @@ public class Review {
         this.userId = userId;
     }
 
-    public Long getFilmId() {
+    public int getFilmId() {
         return filmId;
     }
 
-    public void setFilmId(Long filmId) {
+    public void setFilmId(int filmId) {
         this.filmId = filmId;
     }
     public Float getRating() {

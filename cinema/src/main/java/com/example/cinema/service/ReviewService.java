@@ -26,13 +26,10 @@ public class ReviewService {
     }
 
     @CacheEvict(value = "reviews")
-    public void addReview(Long filmId, Long userId, String text, Float rating, String filmName) {
+    public void addReview(int filmId, Long userId, String text, Float rating, String filmName) {
         Review existingReview = reviewRepository.findByFilmIdAndUserId(filmId, userId);
         if (existingReview != null) {
-            // User has already left a review for this film
             throw new RuntimeException("User has already left a review for this film");
-            // Or, you can return a message:
-            // return "User has already left a review for this film";
         }
         Review review = new Review();
         review.setFilmId(filmId);
@@ -74,10 +71,10 @@ public class ReviewService {
         }
     }
     @Cacheable(value = "reviews", key = "#filmId")
-    public List<Review> getReviewsByFilmId(Long filmId) {
+    public List<Review> getReviewsByFilmId(int filmId) {
         return reviewRepository.findByFilmId(filmId);
     }
-    public float getAverageRating(Long filmId) {
+    public float getAverageRating(int filmId) {
         List<Review> reviews = reviewRepository.findByFilmId(filmId);
         if (reviews.isEmpty()) {
             return (float) 0.0;
@@ -91,5 +88,7 @@ public class ReviewService {
     public List<Review> getReviewsByUserId(Long userId) {
         return reviewRepository.findByUserId(userId);
     }
-
+    public boolean hasReviewByUserAndFilm(Long userId, int filmId) {
+        return reviewRepository.findByFilmIdAndUserId(filmId, userId) != null;
+    }
 }

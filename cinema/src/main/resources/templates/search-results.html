@@ -35,7 +35,8 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item" th:classappend="${currentPage == i} ? 'active'" th:each="i : ${#numbers.sequence(1, currentPage + 1)}">
+      <li class="page-item" th:classappend="${currentPage == i} ? 'active'"
+          th:each="i : ${#numbers.sequence(currentPage > 1 ? currentPage - 1 : 1, currentPage > 1 ? currentPage + 1 : 3)}">
         <a class="page-link" th:href="@{/search(query=${query}, page=${i}, size=${size})}" th:text="${i}">1</a>
       </li>
       <li class="page-item">

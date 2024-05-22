@@ -42,7 +42,7 @@ public class FilmController {
     }
 
     @GetMapping("/film/{id}")
-    public String getFilmById(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails user) {
+    public String getFilmById(@PathVariable int id, Model model, @AuthenticationPrincipal UserDetails user) {
         Film film = filmService.getFilmById(id);
         if (film != null) {
             String formattedGenres = film.getGenres().stream()
@@ -61,6 +61,8 @@ public class FilmController {
                 User loggedInUser = userService.findByUsername(user.getUsername());
                 model.addAttribute("user", loggedInUser);
                 model.addAttribute("isUserLoggedIn", true);
+                boolean hasReview = reviewService.hasReviewByUserAndFilm(loggedInUser.getId(), id);
+                model.addAttribute("hasReview", hasReview);
             } else {
                 model.addAttribute("isUserLoggedIn", false);
             }
@@ -88,7 +90,7 @@ public class FilmController {
 
 
     @PostMapping("/film/{id}/review")
-    public String addReview(@PathVariable Long id, @RequestParam String text, @RequestParam Float rating, @RequestParam String filmName, @AuthenticationPrincipal User user) {
+    public String addReview(@PathVariable int id, @RequestParam String text, @RequestParam Float rating, @RequestParam String filmName, @AuthenticationPrincipal User user) {
         if (user != null) {
             reviewService.addReview(id, user.getId(), text, rating, filmName);
             Cache reviewsCache = cacheManager.getCache("reviews");

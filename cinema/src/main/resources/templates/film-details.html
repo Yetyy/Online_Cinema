@@ -22,9 +22,9 @@
       </p>
       <p><strong>Продолжительность:</strong> <span th:text="${film.movieLength}"></span> минут</p>
       <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
-      <p><strong>Рейтинг:</strong> <span th:text="${film.rating.kp}"></span></p>
-      <p><strong>Рейтинг сайта:</strong> <span th:text="${reviewService.getAverageRating(film.id)}"></span></p>
+      <p><strong>Рейтинг Кинопоиск:</strong> <span th:text="${film.rating.kp}"></span></p>
       <p><strong>Голосов:</strong> <span th:text="${film.votes.kp}"></span></p>
+      <p><strong>Рейтинг сайта:</strong> <span th:text="${reviewService.getAverageRating(film.id)}"></span></p>
       <a th:href="@{/}" class="btn btn-secondary">Назад к списку</a>
     </div>
   </div>
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div th:if="${isUserLoggedIn}">
+    <div th:if="${isUserLoggedIn && !hasReview}">
       <form th:action="@{'/film/' + ${film.id} + '/review'}" method="post">
         <textarea name="text" class="form-control" placeholder="Ваш отзыв"></textarea>
         <div th:replace="~{fragments/rating :: rating}"></div>
