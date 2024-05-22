@@ -40,7 +40,6 @@ public class FilmApiClient {
         headers.set("X-API-KEY", apiKey);
 
         HttpEntity<Object> request = new HttpEntity<>(headers);
-
         ResponseEntity<FilmResponse> response = restTemplate.exchange(
                 apiUrl + "/v1.4/movie?page=2&rating.kp=8-10&type=movie&votes.kp=500000-1000000&limit=3",
                 HttpMethod.GET,
@@ -58,7 +57,6 @@ public class FilmApiClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-API-KEY", apiKey);
-
         HttpEntity<Object> request = new HttpEntity<>(headers);
 
         ResponseEntity<Film> response = restTemplate.exchange(
@@ -78,7 +76,6 @@ public class FilmApiClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-API-KEY", apiKey);
-
         HttpEntity<Object> request = new HttpEntity<>(headers);
 
         String url = String.format("%s/v1.4/movie/search?query=%s&page=%d&limit=%d", apiUrl, query, page, size);

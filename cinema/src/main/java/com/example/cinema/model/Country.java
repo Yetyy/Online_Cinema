@@ -1,8 +1,9 @@
 package com.example.cinema.model;
 
+import jakarta.persistence.Embeddable;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 
+@Embeddable
 public class Country {
     @JsonProperty("name")
     private String name;
@@ -17,4 +18,3 @@ public class Country {
         this.name = name;
     }
 }
-

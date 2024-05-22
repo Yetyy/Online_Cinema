@@ -1,9 +1,16 @@
 package com.example.cinema.model;
 
+import jakarta.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "persons")
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private int id;
 
@@ -21,6 +28,11 @@ public class Person {
 
     @JsonProperty("en_profession")
     private String enProfession;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "film_id")
+    private Film film;
+
 
     // Getters and setters
 

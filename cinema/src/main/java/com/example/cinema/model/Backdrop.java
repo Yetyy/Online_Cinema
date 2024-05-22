@@ -1,8 +1,8 @@
-
 package com.example.cinema.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Embeddable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Embeddable
 public class Backdrop {
@@ -11,6 +11,7 @@ public class Backdrop {
 
     @JsonProperty("previewUrl")
     private String backdropPreviewUrl;
+
 
     // Getters and setters
 

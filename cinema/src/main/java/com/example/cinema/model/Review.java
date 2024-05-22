@@ -23,8 +23,6 @@ public class Review {
     private String filmName;
 
     @Column(nullable = false)
-    @Min(1)
-    @Max(5)
     private Float rating;
 
     // Getters and setters

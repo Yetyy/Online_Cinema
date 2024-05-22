@@ -8,6 +8,8 @@ import com.example.cinema.service.FilmService;
 import com.example.cinema.service.ReviewService;
 import com.example.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,8 @@ public class FilmController {
     private final FilmService filmService;
     private final ReviewService reviewService;
     private final UserService userService;
-
+    @Autowired
+    private CacheManager cacheManager;
     @Autowired
     public FilmController(FilmService filmService, ReviewService reviewService,UserService userService) {
         this.filmService = filmService;
@@ -88,6 +91,8 @@ public class FilmController {
     public String addReview(@PathVariable Long id, @RequestParam String text, @RequestParam Float rating, @RequestParam String filmName, @AuthenticationPrincipal User user) {
         if (user != null) {
             reviewService.addReview(id, user.getId(), text, rating, filmName);
+            Cache reviewsCache = cacheManager.getCache("reviews");
+            reviewsCache.clear();
         }
         return "redirect:/film/" + id;
     }
@@ -98,6 +103,8 @@ public class FilmController {
     public String editReview(@PathVariable Long id, @PathVariable Long reviewId, @RequestParam String text, @RequestParam Float rating,@AuthenticationPrincipal User user) {
         if (user != null && reviewService.isReviewBelongsToUser(reviewId, user.getId())) {
             reviewService.updateReview(reviewId, user.getId(), text, rating);
+            Cache reviewsCache = cacheManager.getCache("reviews");
+            reviewsCache.clear();
         }
         return "redirect:/film/" + id;
     }
@@ -106,6 +113,8 @@ public class FilmController {
     public String deleteReview(@PathVariable Long id, @PathVariable Long reviewId, @AuthenticationPrincipal User user) {
         if (user != null && reviewService.isReviewBelongsToUser(reviewId, user.getId())) {
             reviewService.deleteReview(reviewId, user.getId());
+            Cache reviewsCache = cacheManager.getCache("reviews");
+            reviewsCache.clear();
         }
         return "redirect:/film/" + id;
     }

@@ -1,14 +1,17 @@
 package com.example.cinema.model;
 
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
 public class Film {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String type;
@@ -16,16 +19,42 @@ public class Film {
     private int year;
     private String description;
     private String shortDescription;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "kp", column = @Column(name = "rating_kp"))
+    })
     private Rating rating;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "kp", column = @Column(name = "votes_kp"))
+    })
     private Votes votes;
+
     private int movieLength;
     private int ageRating;
+
+    @Embedded
     private Poster poster;
+
+    @Embedded
     private Backdrop backdrop;
+
+    @ElementCollection
+    @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))
+    @Column(name = "genre_name")
     private List<Genre> genres;
+
+    @ElementCollection
+    @CollectionTable(name = "film_country", joinColumns = @JoinColumn(name = "film_id"))
+    @Column(name = "country_name")
     private List<Country> countries;
+
     @JsonProperty("persons")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Person> persons;
+
     private boolean isSeries;
 
     // Getters and setters
@@ -101,6 +130,7 @@ public class Film {
     public void setVotes(Votes votes) {
         this.votes = votes;
     }
+
     public int getMovieLength() {
         return movieLength;
     }
@@ -177,5 +207,3 @@ public class Film {
         return null;
     }
 }
-
-

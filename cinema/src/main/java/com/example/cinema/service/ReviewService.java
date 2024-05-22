@@ -5,7 +5,8 @@ import com.example.cinema.model.User;
 import com.example.cinema.repository.ReviewRepository;
 import com.example.cinema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,21 +18,32 @@ public class ReviewService {
     private final UserRepository userRepository;
 
 
+
     @Autowired
     public ReviewService(ReviewRepository reviewRepository,UserRepository userRepository, RestTemplate restTemplate) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
     }
 
-    public void addReview(Long filmId, Long userId, String text,Float rating, String filmName) {
+    @CacheEvict(value = "reviews")
+    public void addReview(Long filmId, Long userId, String text, Float rating, String filmName) {
+        Review existingReview = reviewRepository.findByFilmIdAndUserId(filmId, userId);
+        if (existingReview != null) {
+            // User has already left a review for this film
+            throw new RuntimeException("User has already left a review for this film");
+            // Or, you can return a message:
+            // return "User has already left a review for this film";
+        }
         Review review = new Review();
         review.setFilmId(filmId);
         review.setFilmName(filmName);
         review.setUserId(userId);
         review.setText(text);
         review.setRating(rating);
+        reviewRepository.save(review);
 
-        User user = userRepository.findById(userId).orElse(null);
+
+    User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             review.setAutorName(user.getUsername());
         }
@@ -44,6 +56,7 @@ public class ReviewService {
         return review != null && review.getUserId().equals(userId);
     }
 
+    @CacheEvict(value = "reviews")
     public void updateReview(Long reviewId, Long userId, String text,Float rating) {
         Review review = reviewRepository.findById(reviewId).orElse(null);
         if (review != null && review.getUserId().equals(userId)) {
@@ -53,13 +66,14 @@ public class ReviewService {
         }
     }
 
+    @CacheEvict(value = "reviews")
     public void deleteReview(Long reviewId, Long userId) {
         Review review = reviewRepository.findById(reviewId).orElse(null);
         if (review != null && review.getUserId().equals(userId)) {
             reviewRepository.delete(review);
         }
     }
-
+    @Cacheable(value = "reviews", key = "#filmId")
     public List<Review> getReviewsByFilmId(Long filmId) {
         return reviewRepository.findByFilmId(filmId);
     }
