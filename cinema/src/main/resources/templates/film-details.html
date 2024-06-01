@@ -22,8 +22,6 @@
       </p>
       <p><strong>Продолжительность:</strong> <span th:text="${film.movieLength}"></span> минут</p>
       <p><strong>Описание:</strong> <span th:text="${film.description}"></span></p>
-      <p><strong>Рейтинг Кинопоиск:</strong> <span th:text="${film.rating.kp}"></span></p>
-      <p><strong>Голосов:</strong> <span th:text="${film.votes.kp}"></span></p>
       <p><strong>Рейтинг сайта:</strong> <span th:text="${reviewService.getAverageRating(film.id)}"></span></p>
       <a th:href="@{/}" class="btn btn-secondary">Назад к списку</a>
     </div>

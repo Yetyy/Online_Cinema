@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: C:\Users\Artem\IdeaProjects\cinema\src\main\java\com\example
+ \cinema\CinemaApplication.java
+
