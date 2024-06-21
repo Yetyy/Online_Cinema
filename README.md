@@ -42,13 +42,6 @@ docker-compose up
 - **Bootstrap**: Фреймворк для стилизации и создания адаптивного интерфейса.
 
 <details>
- 
-[![Регистрация][1]][1]
- 
-[1]: https://github.com/Yetyy/Online_Cinema/tree/main/images/Register.png
- 
-</details>
-<details>
   <summary>Изображения сайта</summary>
 
   ![Регистрация](https://github.com/Yetyy/Online_Cinema/tree/main/images/Register.png)
