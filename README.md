@@ -44,17 +44,17 @@ docker-compose up
 <details>
   <summary>Изображения сайта</summary>
 
-  ![Регистрация](https://github.com/Yetyy/Online_Cinema/images/Register.png)
+  ![Регистрация](https://github.com/Yetyy/Online_Cinema/tree/main/images/Register.png)
   
-  ![Вход](https://github.com/Yetyy/Online_Cinema/images/Login.png)
+  ![Вход](https://github.com/Yetyy/Online_Cinema/tree/main/images/Login.png)
   
-  ![Основная страница сайта](https://github.com/Yetyy/Online_Cinema/images/Main_page.png)
+  ![Основная страница сайта](https://github.com/Yetyy/Online_Cinema/tree/main/images/Main_page.png)
   
-  ![Подробная информация о фильме](https://github.com/Yetyy/Online_Cinema/images/Film_details_1.png)
+  ![Подробная информация о фильме](https://github.com/Yetyy/Online_Cinema/tree/main/images/Film_details_1.png)
   
-  ![Блок трейлера и отзывов на фильм](https://github.com/Yetyy/Online_Cinema/images/Film_details_2.png)
+  ![Блок трейлера и отзывов на фильм](https://github.com/Yetyy/Online_Cinema/tree/main/images/Film_details_2.png)
   
-  ![Страница поиска](https://github.com/Yetyy/Online_Cinema/images/Search.png)
+  ![Страница поиска](https://github.com/Yetyy/Online_Cinema/tree/main/images/Search.png)
   
 
 </details>
